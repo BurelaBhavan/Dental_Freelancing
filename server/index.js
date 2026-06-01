@@ -8,30 +8,41 @@ const { initDb } = require('./db');
 const app = express();
 
 // ── CORS ────────────────────────────────────────────────────────────────────
-// Allow requests from the Vite dev server (port 5173) and any production URL
+// Allow requests from the Vite dev server and any production Netlify URL
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (curl, Postman, same-origin)
+    // Allow requests with no origin (curl, Postman, mobile apps)
     if (!origin) return callback(null, true);
+
+    // Extra origins from env (comma-separated), e.g. "https://my-clinic.netlify.app"
+    const extraOrigins = (process.env.ALLOWED_ORIGINS || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
 
     const allowed = [
       config.FRONTEND_URL,
       'http://localhost:5173',
       'http://localhost:4173',
       'http://127.0.0.1:5173',
+      ...extraOrigins,
     ];
 
-    if (allowed.includes(origin)) {
+    // Allow any Netlify preview/production URL
+    const isNetlify = origin.endsWith('.netlify.app');
+
+    if (allowed.includes(origin) || isNetlify) {
       callback(null, true);
     } else {
       console.warn(`[CORS] Blocked request from origin: ${origin}`);
-      callback(null, false); // Don't throw — just block
+      callback(null, false);
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
