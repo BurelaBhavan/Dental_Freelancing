@@ -1,0 +1,33 @@
+# ── Dependencies ──────────────────────────────────────────────
+node_modules/
+app/node_modules/
+server/node_modules/
+
+# ── Environment files (NEVER upload these — contain passwords) ─
+.env
+server/.env
+app/.env
+
+# ── Database (contains patient data — keep private) ───────────
+server/appointments.sqlite
+*.sqlite
+*.db
+
+# ── Build output ───────────────────────────────────────────────
+app/dist/
+app/.vite/
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
+# ── OS files ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editor files ──────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+
+# ── TypeScript cache ──────────────────────────────────────────
+*.tsbuildinfo
