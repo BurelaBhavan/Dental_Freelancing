@@ -4,7 +4,7 @@
 [build]
   base    = "app"          # folder containing package.json
   command = "npm run build"
-  publish = "app/dist"     # Vite output folder
+  publish = "dist"         # Vite output folder
 
 # SPA routing — all routes serve index.html
 [[redirects]]
