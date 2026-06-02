@@ -65,6 +65,15 @@ initDb()
     app.use('/api/appointments', appointmentRoutes);
     app.use('/api/admin', adminRoutes);
 
+    // Root route handler
+    app.get('/', (_req, res) => {
+      res.json({
+        status: 'ok',
+        message: `${config.CLINIC_NAME} Backend API is running successfully!`,
+        health: '/api/health',
+      });
+    });
+
     // Health check
     app.get('/api/health', (_req, res) => {
       res.json({
